@@ -28,17 +28,25 @@ const loadRecord = (id, key) => {
 };
 
 const converter = () => {
-  const fromValue = document.getElementById("lang1");
-  var value = fromValue.options[fromValue.selectedIndex];
-  console.log(value.text);
-  console.log(fromValue);
-  const url = `http://data.fixer.io/api/convert
-  ? access_key = ${API_KEY}
-  & from = ${value.text}
-  & to = ${value.text}
-  & amount = 25`;
-
+  const fromValue = getValue("lang1");
+  const toValue = getValue("lang2");
+  const amount = document.getElementById("amount-field").value;
+  console.log(typeof amount);
+  const url = `http://data.fixer.io/api/convert?access_key=${API_KEY}&from=${
+    fromValue.text
+  }&to=${toValue.text}&amount=${parseInt(amount)}`;
   console.log(url);
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => console.log(data));
+
+  //console.log(url);
+};
+
+const getValue = (id) => {
+  const fieldId = document.getElementById(id);
+  const value = fieldId.options[fieldId.selectedIndex];
+  return value;
 };
 
 loadAll();
